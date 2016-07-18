@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.niit.mapper.StudentMapper" >
+  <resultMap id="BaseResultMap" type="com.niit.po.Student" >
+    <id column="sno" property="sno" jdbcType="INTEGER" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="ssex" property="ssex" jdbcType="VARCHAR" />
+    <result column="sage" property="sage" jdbcType="INTEGER" />
+    <result column="sphone" property="sphone" jdbcType="VARCHAR" />
+    <result column="classno" property="classno" jdbcType="INTEGER" />
+    <result column="dormno" property="dormno" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sno, sname, ssex, sage, sphone, classno, dormno
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.niit.po.StudentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where sno = #{sno,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student
+    where sno = #{sno,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.niit.po.StudentExample" >
+    delete from student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.niit.po.Student" >
+    insert into student (sno, sname, ssex, 
+      sage, sphone, classno, 
+      dormno)
+    values (#{sno,jdbcType=INTEGER}, #{sname,jdbcType=VARCHAR}, #{ssex,jdbcType=VARCHAR}, 
+      #{sage,jdbcType=INTEGER}, #{sphone,jdbcType=VARCHAR}, #{classno,jdbcType=INTEGER}, 
+      #{dormno,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.niit.po.Student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sno != null" >
+        sno,
+      </if>
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="ssex != null" >
+        ssex,
+      </if>
+      <if test="sage != null" >
+        sage,
+      </if>
+      <if test="sphone != null" >
+        sphone,
+      </if>
+      <if test="classno != null" >
+        classno,
+      </if>
+      <if test="dormno != null" >
+        dormno,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sno != null" >
+        #{sno,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="ssex != null" >
+        #{ssex,jdbcType=VARCHAR},
+      </if>
+      <if test="sage != null" >
+        #{sage,jdbcType=INTEGER},
+      </if>
+      <if test="sphone != null" >
+        #{sphone,jdbcType=VARCHAR},
+      </if>
+      <if test="classno != null" >
+        #{classno,jdbcType=INTEGER},
+      </if>
+      <if test="dormno != null" >
+        #{dormno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.niit.po.StudentExample" resultType="java.lang.Integer" >
+    select count(*) from student
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update student
+    <set >
+      <if test="record.sno != null" >
+        sno = #{record.sno,jdbcType=INTEGER},
+      </if>
+      <if test="record.sname != null" >
+        sname = #{record.sname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ssex != null" >
+        ssex = #{record.ssex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sage != null" >
+        sage = #{record.sage,jdbcType=INTEGER},
+      </if>
+      <if test="record.sphone != null" >
+        sphone = #{record.sphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classno != null" >
+        classno = #{record.classno,jdbcType=INTEGER},
+      </if>
+      <if test="record.dormno != null" >
+        dormno = #{record.dormno,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update student
+    set sno = #{record.sno,jdbcType=INTEGER},
+      sname = #{record.sname,jdbcType=VARCHAR},
+      ssex = #{record.ssex,jdbcType=VARCHAR},
+      sage = #{record.sage,jdbcType=INTEGER},
+      sphone = #{record.sphone,jdbcType=VARCHAR},
+      classno = #{record.classno,jdbcType=INTEGER},
+      dormno = #{record.dormno,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.niit.po.Student" >
+    update student
+    <set >
+      <if test="sname != null" >
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="ssex != null" >
+        ssex = #{ssex,jdbcType=VARCHAR},
+      </if>
+      <if test="sage != null" >
+        sage = #{sage,jdbcType=INTEGER},
+      </if>
+      <if test="sphone != null" >
+        sphone = #{sphone,jdbcType=VARCHAR},
+      </if>
+      <if test="classno != null" >
+        classno = #{classno,jdbcType=INTEGER},
+      </if>
+      <if test="dormno != null" >
+        dormno = #{dormno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sno = #{sno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.niit.po.Student" >
+    update student
+    set sname = #{sname,jdbcType=VARCHAR},
+      ssex = #{ssex,jdbcType=VARCHAR},
+      sage = #{sage,jdbcType=INTEGER},
+      sphone = #{sphone,jdbcType=VARCHAR},
+      classno = #{classno,jdbcType=INTEGER},
+      dormno = #{dormno,jdbcType=INTEGER}
+    where sno = #{sno,jdbcType=INTEGER}
+  </update>
+  
+   <select id="list" resultType="com.niit.po.Student" >
+    select * from student
+  </select>
+</mapper>
